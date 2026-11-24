@@ -155,7 +155,10 @@ public final class RtsWorkflowDetailPanel extends RtsWindowPanel {
             int last = visible.getLastExclusive();
             int firstY = (int) Math.round(
                     viewport.getY() - this.scrollModel.getOffset() + first * (double) LINE_H);
-            graphics.enableScissor(
+            // 走 RTS 缩放感知的 scissor 入口：非 1:1 缩放下需乘 renderScale，
+            // 否则详情文本裁剪区域偏移、内容显示不完整。
+            this.screen.enableRtsScissor(
+                    graphics,
                     (int) viewport.getX(),
                     (int) viewport.getY(),
                     (int) viewport.right(),

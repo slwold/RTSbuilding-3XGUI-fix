@@ -239,7 +239,10 @@ public final class RtsWorkflowPanel extends RtsWindowPanel {
         }
         if (viewport.isEmpty()) return;
 
-        graphics.enableScissor(
+        // 走 RTS 缩放感知的 scissor 入口：非 1:1 缩放下需要乘 renderScale，
+        // 否则内层列表裁剪区域偏小，导致工作流内容显示不完整（仅 RTS=MC 缩放时正常）。
+        this.screen.enableRtsScissor(
+                graphics,
                 (int) viewport.getX(),
                 (int) viewport.getY(),
                 (int) viewport.right(),
